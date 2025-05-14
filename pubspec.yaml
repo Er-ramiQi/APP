@@ -1,0 +1,67 @@
+
+name: secure_pass
+description: Application de gestion de mots de passe sécurisée
+
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  crypto: ^3.0.3
+
+  # Interface utilisateur
+  cupertino_icons: ^1.0.6
+  flutter_spinkit: ^5.2.0
+  
+  # Gestion d'état
+  provider: ^6.1.1
+  
+  # Stockage sécurisé (Couche 1: Protection des données)
+  flutter_secure_storage: ^9.0.0
+  encrypt: ^5.0.3
+  
+  # Biométrie (Couche 1: Protection des données)
+  local_auth: ^2.1.7
+  
+  # Communication réseau (Couche 2: Communication sécurisée)
+  dio: ^5.4.0
+  ssl_pinning_plugin: ^2.0.0
+
+  
+  # Authentification (Couche 3: Authentification et autorisation)
+  jwt_decoder: ^2.0.1
+  
+  # Protection du code (Couche 4: Protection du code)
+  flutter_jailbreak_detection: ^1.10.0
+  device_info_plus: ^9.1.1
+  
+  # Utilitaires
+  intl: ^0.19.0
+  uuid: ^4.3.1
+  flutter_dotenv: ^5.1.0
+  path_provider: ^2.1.2
+  logger: ^2.0.2+1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.1
+
+flutter:
+  uses-material-design: true
+  
+  assets:
+    - assets/images/
+    - assets/icons/
+    - .env
+    
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto_Condensed-Regular.ttf
+        - asset: assets/fonts/Roboto-Bold.ttf
+          weight: 700
