@@ -30,13 +30,12 @@ dependencies:
   # Communication réseau (Couche 2: Communication sécurisée)
   dio: ^5.4.0
   ssl_pinning_plugin: ^2.0.0
-
   
   # Authentification (Couche 3: Authentification et autorisation)
   jwt_decoder: ^2.0.1
   
   # Protection du code (Couche 4: Protection du code)
-  flutter_jailbreak_detection: ^1.10.0
+  # flutter_jailbreak_detection: ^1.10.0  # Supprimé
   device_info_plus: ^9.1.1
   
   # Utilitaires
@@ -45,7 +44,7 @@ dependencies:
   flutter_dotenv: ^5.1.0
   path_provider: ^2.1.2
   logger: ^2.0.2+1
-
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

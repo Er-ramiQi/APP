@@ -139,80 +139,82 @@ class _SettingsScreenState extends State<SettingsScreen> {
     Navigator.of(context).pushReplacementNamed('/login');
   }
   
-  Future<void> _checkSecurityStatus() async {
-    setState(() {
-      _isLoading = true;
-    });
-    
-    // Vérifier l'état de la sécurité
-    final securityResult = await _codeProtectionService.checkSecurityStatus();
-    
-    setState(() {
-      _isLoading = false;
-    });
-    
-    // Afficher les résultats
-    // ignore: use_build_context_synchronously
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('État de la sécurité'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildSecurityStatusItem(
-              'Appareil rooté/jailbreaké',
-              securityResult.isRooted,
-              isErrorWhenTrue: true,
-            ),
-            _buildSecurityStatusItem(
-              'Débogueur attaché',
-              securityResult.isDebugging,
-              isErrorWhenTrue: true,
-            ),
-            _buildSecurityStatusItem(
-              'Mode debug',
-              securityResult.isDebug,
-              isErrorWhenTrue: true,
-            ),
-            _buildSecurityStatusItem(
-              'Émulateur',
-              securityResult.isEmulator,
-              isErrorWhenTrue: false,
-            ),
-            _buildSecurityStatusItem(
-              'Mode développeur',
-              securityResult.isDeveloperMode,
-              isErrorWhenTrue: true,
-            ),
-            _buildSecurityStatusItem(
-              'Application modifiée',
-              securityResult.isTampered,
-              isErrorWhenTrue: true,
-            ),
-            const Divider(),
-            Row(
-              children: [
-                const Text(
-                  'Niveau de sécurité:',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(width: 8),
-                _buildSecurityLevelChip(securityResult.securityLevel),
-              ],
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Fermer'),
+  // lib/screens/settings/settings_screen.dart (extrait)
+// Cette méthode est utilisée pour afficher les résultats de la vérification de sécurité
+Future<void> _checkSecurityStatus() async {
+  setState(() {
+    _isLoading = true;
+  });
+  
+  // Vérifier l'état de la sécurité
+  final securityResult = await _codeProtectionService.checkSecurityStatus();
+  
+  setState(() {
+    _isLoading = false;
+  });
+  
+  // Afficher les résultats
+  // ignore: use_build_context_synchronously
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: const Text('État de la sécurité'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildSecurityStatusItem(
+            'Environnement non sécurisé détecté',
+            securityResult.isRooted,
+            isErrorWhenTrue: true,
+          ),
+          _buildSecurityStatusItem(
+            'Débogueur attaché',
+            securityResult.isDebugging,
+            isErrorWhenTrue: true,
+          ),
+          _buildSecurityStatusItem(
+            'Mode debug',
+            securityResult.isDebug,
+            isErrorWhenTrue: true,
+          ),
+          _buildSecurityStatusItem(
+            'Émulateur',
+            securityResult.isEmulator,
+            isErrorWhenTrue: false,
+          ),
+          _buildSecurityStatusItem(
+            'Mode développeur',
+            securityResult.isDeveloperMode,
+            isErrorWhenTrue: true,
+          ),
+          _buildSecurityStatusItem(
+            'Application modifiée',
+            securityResult.isTampered,
+            isErrorWhenTrue: true,
+          ),
+          const Divider(),
+          Row(
+            children: [
+              const Text(
+                'Niveau de sécurité:',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(width: 8),
+              _buildSecurityLevelChip(securityResult.securityLevel),
+            ],
           ),
         ],
       ),
-    );
-  }
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text('Fermer'),
+        ),
+      ],
+    ),
+  );
+}
   
   Widget _buildSecurityStatusItem(String label, bool value, {required bool isErrorWhenTrue}) {
     final isError = isErrorWhenTrue ? value : false;

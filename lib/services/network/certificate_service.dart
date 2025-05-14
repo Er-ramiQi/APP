@@ -43,7 +43,6 @@ class CertificateService {
     try {
       final String baseUrl = dotenv.env['API_BASE_URL'] ?? 'https://api.securepass.local';
       
-      // Modifié: ajouté le paramètre timeout
       final result = await SslPinningPlugin.check(
         serverURL: baseUrl,
         sha: SHA.SHA256,
@@ -52,7 +51,7 @@ class CertificateService {
       );
       
       _logger.i('Vérification du certificat: $result');
-      return result == "CONNECTION_SECURE";  // Modifié: vérifie la valeur de retour appropriée
+      return result == "CONNECTION_SECURE";
     } catch (e) {
       _logger.e('Erreur lors de la vérification du certificat: $e');
       return false;
@@ -60,14 +59,11 @@ class CertificateService {
   }
   
   // Obtient l'empreinte du certificat actuel du serveur (pour le débogage)
-  // Modifié: Implémentation personnalisée au lieu d'utiliser getCertificateInfo
   Future<String?> getCurrentCertificateFingerprint() async {
     try {
       final String baseUrl = dotenv.env['API_BASE_URL'] ?? 'https://api.securepass.local';
       
       // Méthode alternative pour obtenir l'empreinte
-      // Notez que ceci est une simplification, dans un environnement de production
-      // vous devriez implémenter une méthode plus robuste
       _logger.i('Obtention de l\'empreinte du certificat pour $baseUrl');
       return "Empreinte à récupérer manuellement - Fonction non disponible";
     } catch (e) {

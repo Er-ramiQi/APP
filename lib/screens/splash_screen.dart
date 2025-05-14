@@ -33,11 +33,24 @@ class _SplashScreenState extends State<SplashScreen> {
     await Future.delayed(const Duration(seconds: 2));
     
     // Vérifie le niveau de sécurité
-    if (_securityResult.securityLevel == SecurityLevel.critical) {
+    // Modifié: toujours montrer une alerte pour les niveaux High et Critical
+    if (_securityResult.securityLevel == SecurityLevel.critical || 
+        _securityResult.securityLevel == SecurityLevel.high) {
       _showSecurityAlert();
       return;
     }
     
+    // Pour les niveaux Medium, montrer un avertissement mais permet de continuer
+    if (_securityResult.securityLevel == SecurityLevel.medium) {
+      _showSecurityWarning();
+      return;
+    }
+    
+    // Pour les niveaux Secure et Low, continuer normalement
+    _proceedToNextScreen();
+  }
+  
+  Future<void> _proceedToNextScreen() async {
     // Vérifie si l'utilisateur est déjà connecté
     final isLoggedIn = await _authService.isLoggedIn();
     
@@ -70,9 +83,34 @@ class _SplashScreenState extends State<SplashScreen> {
             onPressed: () {
               // Continue malgré l'alerte (pour le développement uniquement)
               Navigator.of(context).pop();
-              Navigator.of(context).pushReplacementNamed('/login');
+              _proceedToNextScreen();
             },
             child: const Text('Continuer (Développement)'),
+          ),
+        ],
+      ),
+    );
+  }
+  
+  void _showSecurityWarning() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        title: const Text('Avertissement de Sécurité'),
+        content: Text(
+          '${_securityResult.securityMessage}\n\n'
+          'L\'application peut fonctionner dans cet environnement, mais certaines fonctionnalités '
+          'de sécurité peuvent être limitées.'
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              // Ferme l'alerte et continue
+              Navigator.of(context).pop();
+              _proceedToNextScreen();
+            },
+            child: const Text('J\'ai compris, continuer'),
           ),
         ],
       ),
